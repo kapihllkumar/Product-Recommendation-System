@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Market Basket Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Market Basket Recommendation</h1>
+        <form method="POST">
+            <input type="text" name="items" placeholder="Enter items (comma-separated)" required>
+            <button type="submit">Get Recommendations</button>
+        </form>
+
+        {% if input_items %}
+            <div class="results">
+                <h2>Your Items: {{ ', '.join(input_items) }}</h2>
+                
+                {% if recommendations %}
+                    <ul>
+                        {% for rec in recommendations %}
+                            <li>
+                                <strong>{{ rec['items'][0] }}</strong> - Confidence: {{ '%.2f'|format(rec.confidence) }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No recommendations found.</p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
